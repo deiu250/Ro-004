@@ -9,7 +9,7 @@
     <meta charset="UTF-8">
 
 <body>
-    <?php include ("includes/navbar.php")?>
+    <?php include_once ("includes/navbar.php")?>
     <header>
         Echipa
     </header>
@@ -22,7 +22,7 @@ $categorii = [
     "CAD" => ["Team Leader", "CAD Designer", "Mechanic"],
     "Programare" => ["Teleop leader", "TeleOp", "Auto leader", "Auto"],
     "Scouting" => ["Scout Leader", "Scouter"],
-    "Public-Relations" => ["PR", "Sponsor finder", "Main designer"],
+    "Public-Relations" => ["PR Leader", "Sponsor finder", "Main designer"],
 ];
 
 foreach ($categorii as $titlu => $keywords) {
@@ -34,7 +34,7 @@ foreach ($categorii as $titlu => $keywords) {
         foreach ($keywords as $kw) {
             if (stripos($row['rol'], $kw) !== false) {
                 echo "<div class='member-content'>";
-                echo "<img src='" . $row['poza'] . "' alt=''>";
+                echo "<img src='adminoriginal/" . $row['poza'] . "' alt=''>";
                 echo "<h1>" . htmlspecialchars($row['nume']) . "</h1>";
                 echo "<div class='member-info'>";
                 echo "<p>Rol: " . htmlspecialchars($row['rol']) . "</p>";
@@ -47,6 +47,7 @@ foreach ($categorii as $titlu => $keywords) {
 
     echo "</div>";
 }
+include_once ("includes/footer.php");
 ?>
 
 </body>
