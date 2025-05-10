@@ -1,0 +1,79 @@
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+footer img {
+    width: 30px;
+    height: 30px;
+    flex-wrap: nowrap;
+}
+
+footer p {
+    margin: 0;
+    font-size: 1.5vw;
+    color: #77BDD9;
+    font-family: 'Bahnschrift';
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.067);
+    flex: 1;
+    text-align: center;
+    align-items: center;
+}
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    /* Allows items to wrap on smaller screens */
+    gap: 20px;
+    padding: 20px;
+    background-color: #003049;
+    /* Dark background for contrast */
+    box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow above the footer */
+    color: #77BDD9;
+    font-family: 'Bahnschrift', sans-serif;
+    font-size: 1.2vw;
+    text-align: center;
+}
+
+
+footer p {
+    margin: 0;
+    flex-basis: 100%;
+    /* Ensures the text spans the full width */
+    font-size: 1.5vw;
+    color: #77BDD9;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.1);
+}
+
+footer a {
+    display: inline-block;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    /* Smooth hover effect */
+}
+
+footer a img {
+    width: 40px;
+    /* Slightly larger icons */
+    height: 40px;
+    filter: grayscale(100%);
+    /* Makes icons grayscale initially */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth hover effect */
+}
+
+footer a:hover img {
+    filter: grayscale(0%);
+    /* Restores color on hover */
+    transform: scale(1.2);
+    /* Slightly enlarges the icon */
+}
+
+footer a:hover {
+    opacity: 0.8;
+    /* Slight fade effect on hover */
+}

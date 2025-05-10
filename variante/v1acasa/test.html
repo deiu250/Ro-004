@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stânga și Dreapta</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            height: 100vh; /* Ocupă toată înălțimea paginii */
+        }
+        .left, .right {
+            flex: 1; /* Fiecare div ocupă 50% din pagină */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+        }
+        .left {
+            background-color: #3498db; /* Albastru */
+        }
+        .right {
+            background-color: #e74c3c; /* Roșu */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="left">Element pe stânga</div>
+    <div class="right">Element pe dreapta</div>
+</div>
+
+</body>
+</html>

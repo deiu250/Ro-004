@@ -1,0 +1,42 @@
+body {
+    background-image: url(inuse/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    font-size: 5vw;
+    font-weight: 900;
+    color: #77BDD9;
+    font-family: 'Bahnschrift', sans-serif;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.067);
+    text-align: center;
+    margin-top: 10px;
+}
+
+h1 {
+    display: flex;
+    flex-direction: row;
+    /* Keep the links in a row */
+    justify-content: space-evenly;
+    /* Distribute links evenly across the row */
+    align-items: center;
+    /* Center the links vertically */
+    font-size: 3vw;
+    height: 100vh;
+    /* Make the <h1> take the full viewport height */
+    margin: 0;
+    /* Remove any default margins */
+}
+a {
+    color: inherit;
+    text-decoration: none;
+    text-shadow: rgb(150, 222, 248) 1px 0 7px;
+}
+
+a:visited {
+    color: inherit;
+}

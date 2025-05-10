@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF and PNG Side by Side</title>
+  <style>
+    .container {
+      display: flex;
+      height: 100vh; /* Full viewport height */
+    }
+    .pdf-container, .image-container {
+      width: 50%; /* Each takes half of the screen */
+      height: 100%; /* Full height of the page */
+    }
+    .pdf-container {
+      border-right: 1px solid #000; /* Optional, adds a border between the two */
+    }
+    .image-container {
+      background: url('path-to-your-image.png') no-repeat center center;
+      background-size: cover;
+    }
+    embed {
+      width: 100%; /* Make the PDF take up the full width of its container */
+      height: 100%; /* Make the PDF take up the full height of its container */
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- PDF on the left -->
+    <div class="pdf-container">
+      <embed src="path-to-your-pdf.pdf" type="application/pdf" />
+    </div>
+    
+    <!-- PNG on the right -->
+    <div class="image-container">
+      <!-- No need to add anything here; it's controlled by the CSS background -->
+    </div>
+  </div>
+
+</body>
+</html>
