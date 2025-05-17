@@ -34,9 +34,8 @@ body {
 
 header {
     width: 100%;
-    height: 85vh;
+    height: 88vh;
     background-color: black;
-    opacity: 1;
     background-image: url('inuse/VK1_5625.jpg');
     background-size: cover;
     background-position: center;
@@ -50,6 +49,7 @@ header {
     text-shadow: 4px 4px 10px black;
     transition: opacity 0.5s ease;
     /* Smooth fading effect */
+    
 }
 
 header div {
@@ -289,6 +289,7 @@ h2 {
     position: relative;
     overflow: hidden;
     margin: auto;
+    scroll-snap-type: y mandatory; /* scroll pe verticală, snap obligatoriu */
 }
 @media (max-width: 768px) {
     .slider {

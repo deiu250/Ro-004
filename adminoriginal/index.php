@@ -43,63 +43,178 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="ro">
 <head>
+    <meta charset="UTF-8">
     <title>Admin Membri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #f2f4f8;
+            --text: #222;
+            --card: #fff;
+            --accent: #007bff;
+            --danger: #dc3545;
+            --shadow: rgba(0, 0, 0, 0.08);
+        }
+
+        body.dark {
+            --bg: #121212;
+            --text: #f0f0f0;
+            --card: #1e1e1e;
+            --accent: #3399ff;
+            --danger: #ff6b6b;
+            --shadow: rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             padding: 2rem;
-            background: #f7f7f7;
+            transition: background 0.3s, color 0.3s;
         }
+
+        h2 {
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
         form {
-            background: white;
+            background: var(--card);
             padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            max-width: 400px;
-            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 12px 30px var(--shadow);
+            max-width: 500px;
+            margin: auto;
+            margin-bottom: 3rem;
         }
+
+        label {
+            font-weight: 600;
+        }
+
         input, button {
             width: 100%;
-            padding: 0.6rem;
-            margin: 0.5rem 0;
+            padding: 0.75rem;
+            margin: 0.6rem 0 1.2rem 0;
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: #fff;
         }
+
+        body.dark input, body.dark button {
+            background: #2c2c2c;
+            color: var(--text);
+            border: 1px solid #555;
+        }
+
         button {
-            background-color: #007bff;
+            background-color: var(--accent);
             color: white;
             font-weight: bold;
-            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s;
         }
+
+        button:hover {
+            background-color: #0056c4;
+        }
+
         .card {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin: 1rem 0;
+            background: var(--card);
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin: 1rem auto;
             display: flex;
             align-items: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.05);
+            max-width: 600px;
+            gap: 1rem;
+            box-shadow: 0 8px 20px var(--shadow);
+            transition: transform 0.2s, background 0.3s;
         }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
         .card img {
-            width: 80px;
-            height: 80px;
+            width: 90px;
+            height: 90px;
             object-fit: cover;
             border-radius: 50%;
-            margin-right: 1rem;
+            border: 3px solid #007bff22;
         }
-        .card-info {
-            flex-grow: 1;
+
+        .card-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
         }
+
+        .card-info p {
+            margin-top: 0.3rem;
+            color: #666;
+        }
+
+        body.dark .card-info p {
+            color: #aaa;
+        }
+
         .card a {
-            color: red;
+            margin-left: auto;
+            color: var(--danger);
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .card a:hover {
+            color: #a4161a;
+        }
+
+        #darkModeToggle {
+            padding: 10px 16px;
+            width: 150px;
+            allign-self: flex-end;
+            background: var(--card);
+            color: var(--text);
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 10px var(--shadow);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        @media (max-width: 600px) {
+            form, .card {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
+            .card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .card a {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
         }
     </style>
 </head>
 <body>
+
+    <button id="darkModeToggle">🌙 Dark Mode</button>
 
     <h2>Adaugă Membru Nou</h2>
     <form method="POST" enctype="multipart/form-data">
@@ -129,5 +244,33 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         echo '</div>';
     }
     ?>
+
+    <script>
+        const toggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        function applyMode(mode) {
+            if (mode === 'dark') {
+                body.classList.add('dark');
+                toggle.textContent = '☀️ Light Mode';
+            } else {
+                body.classList.remove('dark');
+                toggle.textContent = '🌙 Dark Mode';
+            }
+        }
+
+        toggle.addEventListener('click', () => {
+            const isDark = body.classList.contains('dark');
+            const newMode = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', newMode);
+            applyMode(newMode);
+        });
+
+        // Load theme on page load
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        applyMode(savedTheme);
+    </script>
+
 </body>
 </html>
+
