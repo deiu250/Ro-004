@@ -9,27 +9,36 @@
     <style>
     </style>
 </head>
-<?php include ("includes/navbar.php")?>
 
 <body>
+    <?php include ("includes/navbar.php")?>
 
     <header>
         <div>
             Robocorns RO-004
             <p>-break your limits-</p>
         </div>
+        
         <div class="wrapper">
-            <img src="materiale/Eaton_Corporation_logo.svg.png" class="item item1">
-            <img class="item item2" src="materiale/download.png" alt="">
-            <img class="item item3" src="materiale/descoperaaramisgroup_logo.jpg" alt="">
-            <img class="item item4" src="materiale/sh_260532709_418548733276598_6629332301749757934_n.png" alt="">
-            <img class="item item5" src="materiale/logo-alu-menziken.webp" alt="">
-            <img class="item item6" src="materiale/Logo_Delta.webp" alt="">
-            <img class="item item7" src="materiale/images.jpg" alt="">
-            <img class="item item8" src="materiale/logo_4_14.png" alt="">
+        <?php
+        $mysqli = new mysqli("localhost", "root", "", "19086");
+        if ($mysqli->connect_error) {
+            die("Conexiunea a eșuat: " . $mysqli->connect_error);
+        }
+        
+        $result = $mysqli->query("SELECT logo,descriere FROM sponsori");
+        $index = 1;
+        
+        while ($row = $result->fetch_assoc()) {
+            $logo = htmlspecialchars($row['logo']);
+            $nume = htmlspecialchars($row['descriere']);
+            echo "<img class='item item$index' src='$logo' alt='$nume'>";
+            $index++;
+        }
+        ?>
         </div>
     </header>
-    <area>
+    <section>
     <div class="about-us">
         <div class="container">
             <div class="textcontainer1">
@@ -107,7 +116,7 @@
             </div>
         </div>
     </div>
-    </area>
+    </section>
     <!--
             <div class="container">
                 

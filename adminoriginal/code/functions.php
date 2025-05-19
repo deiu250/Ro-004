@@ -18,9 +18,10 @@ function authorization($user, $passw) {
 
     if ($row = mysqli_fetch_assoc($rez)) {
         $hashed_pass = $row['password'];
-        if (password_verify($passw, $hashed_pass)) {
+        if (md5($passw) === $hashed_pass) {
             $_SESSION['user'] = $user;
             $_SESSION['id'] = session_id();
+            $_SESSION['logged_in'] = true;
             return true;
         }
     }
