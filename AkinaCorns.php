@@ -3,70 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="css/inuse/logo.jpg">
+  <link rel="stylesheet" type="text/css" href="css/akinacorns.css">
   <title>Akinacorns</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-image: url('css/inuse/background.jpg');
-      background-size: cover;
-      background-position: center;
-      overflow: hidden;
-      color: #f1f5f9;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 1rem;
-      color: #38bdf8;
-    }
-    .question {
-      font-size: 1.5rem;
-      margin: 1rem 0;
-      text-align: center;
-    }
-    .btn-group, .input-group {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    button, select, option, input {
-      padding: 10px 20px;
-      border: none;
-      margin: 10px;
-      border-radius: 8px;
-      background-color: #1e293b;
-      color: #fff;
-      font-size: 1rem;
-      transition: background-color 0.2s;
-    }
-    button:hover, select:hover, input:hover {
-      background-color: #334155;
-      cursor: pointer;
-    }
-    .result {
-      font-size: 1.8rem;
-      color: #4ade80;
-      margin-top: 2rem;
-      text-align: center;
-    }
-    #restartBtn {
-      margin-top: 20px;
-      background-color: #0ea5e9;
-      color: white;
-      display: none;
-    }
-    #restartBtn:hover {
-      background-color: #0369a1;
-    }
-  </style>
 </head>
+
 <body>
   <h1>Akinacorns </h1>
   <div class="question" id="question"></div>

@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <?php include ("includes/navbar.php")?>
+    <?php include_once("includes/navbar.php")?>
 
     <header>
         <div>
@@ -32,7 +32,7 @@
         while ($row = $result->fetch_assoc()) {
             $logo = htmlspecialchars($row['logo']);
             $nume = htmlspecialchars($row['descriere']);
-            echo "<img class='item item$index' src='$logo' alt='$nume'>";
+            echo "<img class='item item$index' src='admin/$logo' alt='$nume'>";
             $index++;
         }
         ?>

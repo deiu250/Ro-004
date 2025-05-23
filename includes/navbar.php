@@ -62,7 +62,7 @@ nav img {
     <div><a href="sponsori.php">Sponsor Us</a></div>
     <div><a href="AkinaCorns.php">AkinaCorns</a></div>
     <div><a href="Team.php">Team</a></div>
-    <img src="logo _png.png" alt="" style="position: absolute; top:2vh; right: 0; width:7rem; height: auto;">
+    <img src="includes/logo.jpg" alt="123" style="position: absolute; top:2vh; right: 0; width:7rem; height: auto;">
 </nav>
 <script>
 let lastScrollTop = 0;

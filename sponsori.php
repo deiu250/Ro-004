@@ -8,8 +8,13 @@
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
 </head>
 
-<?php include ("includes/navbar.php")?>
+<?php include_once("includes/navbar.php")?>
 <body>
+    <?php if (isset($_GET['success']) && $_GET['success'] === 'true'): ?>
+  <script>
+    alert("Mesajul a fost trimis cu succes! Mulțumim pentru susținere!");
+  </script>
+<?php endif; ?>
     <header>
         SPONSOR US
     </header>
@@ -30,7 +35,7 @@
         </div>
         <div class="right">
             <h2>Formular</h2>
-            <form action="includes/includeemail.php" method="post">
+            <form action="includes/mail.php" method="post">
                 <input type="text" name="nume" placeholder="Numele firmei" required>
                 <input type="email" name="email" placeholder="E-mail" required>
                 <input type="text" name="suma" id="suma" placeholder="Suma" required>
