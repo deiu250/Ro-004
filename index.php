@@ -1,9 +1,10 @@
+<?php include_once ("includes/vizite.php");?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>ROBOCORNS</title>
-    <link rel="icon" type="inuse/image/png" href="css/inuse/logo _png.png">
+    <link rel="icon" type="image/jpeg" href="includes/logo.jpg">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -26,13 +27,17 @@
             die("Conexiunea a eșuat: " . $mysqli->connect_error);
         }
         
-        $result = $mysqli->query("SELECT logo,descriere FROM sponsori");
+        $result = $mysqli->query("SELECT * FROM sponsori");
         $index = 1;
         
         while ($row = $result->fetch_assoc()) {
             $logo = htmlspecialchars($row['logo']);
             $nume = htmlspecialchars($row['descriere']);
-            echo "<img class='item item$index' src='admin/$logo' alt='$nume'>";
+            $link= htmlspecialchars($row['link']);
+            echo "<a href='$link' target='_blank'>
+                    <img style='object-fit: contain;' class='item item$index' src='admin/$logo' alt='$nume'>
+                  </a>";
+
             $index++;
         }
         ?>
@@ -198,4 +203,11 @@
 <?php include ("includes/footer.php")?>
 
 </html>
+<script>
+    window.addEventListener("beforeunload", function () {
+      navigator.sendBeacon("log_leave.php", new URLSearchParams({
+        page: window.location.pathname
+      }));
+    });
+</script>
 <script src="css/scripts/index.js"></script>

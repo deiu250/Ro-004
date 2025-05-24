@@ -1,9 +1,10 @@
+<?php include_once ("includes/vizite.php");?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>ROBOCORNS</title>
-    <link rel="icon" type="image/jpeg" href="css/inuse/logo _png.png">
+    <link rel="icon" type="image/jpeg" href="includes/logo.jpg">
     <link rel="stylesheet" type="text/css" href="css/sponsori.css">
     <link rel="stylesheet" type="text/css" href="css/navbar.css">
 </head>
@@ -46,5 +47,11 @@
     </section>
     <?php include ("includes/footer.php")?>
 </body>
-
+<script>
+    window.addEventListener("beforeunload", function () {
+      navigator.sendBeacon("log_leave.php", new URLSearchParams({
+        page: window.location.pathname
+      }));
+    });
+</script>
 </html>

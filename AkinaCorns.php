@@ -1,9 +1,10 @@
+<?php include_once ("includes/vizite.php");?>
 <!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <link rel="icon" type="image/png" href="css/inuse/logo.jpg">
+  <link rel="icon" type="image/jpeg" href="includes/logo.jpg">
   <link rel="stylesheet" type="text/css" href="css/akinacorns.css">
   <title>Akinacorns</title>
 </head>
@@ -209,5 +210,12 @@
 
     showQuestion();
   </script>
+  <script>
+    window.addEventListener("beforeunload", function () {
+      navigator.sendBeacon("log_leave.php", new URLSearchParams({
+        page: window.location.pathname
+      }));
+    });
+    </script>
 </body>
 </html>

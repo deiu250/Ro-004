@@ -1,9 +1,10 @@
+<?php include_once ("includes/vizite.php");?>
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>ROBOCORNS</title>
-    <link rel="icon" type="image/jpeg" href="css/inuse/logo _png.png">
+    <link rel="icon" type="image/jpeg" href="includes/logo.jpg">
     <link rel="stylesheet" href="css/team.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
@@ -34,7 +35,7 @@ foreach ($categorii as $titlu => $keywords) {
         foreach ($keywords as $kw) {
             if (stripos($row['rol'], $kw) !== false) {
                 echo "<div class='member-content'>";
-                echo "<img src='adminoriginal/" . $row['poza'] . "' alt=''>";
+                echo "<img src='admin/" . $row['poza'] . "' alt=''>";
                 echo "<h1>" . htmlspecialchars($row['nume']) . "</h1>";
                 echo "<div class='member-info'>";
                 echo "<p>Rol: " . htmlspecialchars($row['rol']) . "</p>";
@@ -50,6 +51,12 @@ foreach ($categorii as $titlu => $keywords) {
 include_once ("includes/footer.php");
 ?>
 
-</body>
+</body><script>
+    window.addEventListener("beforeunload", function () {
+      navigator.sendBeacon("log_leave.php", new URLSearchParams({
+        page: window.location.pathname
+      }));
+    });
+    </script>
 
 </html>

@@ -2,6 +2,15 @@
 session_start();
 $conn = new mysqli("localhost", "root", "", "19086");
 
+
+if ($conn->connect_error) {
+    die("Eroare la conectare: " . $conn->connect_error);
+}
+
+// Obține toate vizitele
+$sql = "SELECT * FROM visits ORDER BY visit_time DESC";
+$res = $conn->query($sql);
+
 // Verificare autentificare
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
     $_SESSION['status'] = "Trebuie să fii autentificat pentru a accesa această pagină";
@@ -104,6 +113,33 @@ function logout() {
     form.submit();
 }
 </script>
+<details><summary>📊 Statistici Vizite</summary>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Pagină</th>
+                <th>Adresa IP</th>
+                <th>Data și ora</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if ($res->num_rows > 0): ?>
+                <?php while($row = $res->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= $row['id'] ?></td>
+                        <td><?= htmlspecialchars($row['page']) ?></td>
+                        <td><?= $row['ip_address'] ?></td>
+                        <td><?= $row['visit_time'] ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            <?php else: ?>
+                <tr><td colspan="4">Nu există vizite înregistrate.</td></tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
+</details>
+                
         
         <h2>Adaugă Membru Nou</h2>
     <form method="POST" enctype="multipart/form-data">
@@ -158,31 +194,40 @@ function logout() {
     <details><summary>Lista Sponsori</summary>
 
     <?php
-    $result = $conn->query("SELECT * FROM sponsori ORDER BY id DESC");
-    while ($row = $result->fetch_assoc()) {
+$result = $conn->query("SELECT * FROM sponsori ORDER BY id DESC");
+while ($row = $result->fetch_assoc()) {
     echo "
-    <div style=''
-    border: 1px solid #ccc; 
-    padding: 10px; 
-    width: 250px; 
-    align-items: center; 
-    position: relative; 
-    justify-content: center; 
-    display: flex; 
-    text-align: center;
-    flex-direction: column; 
-''>
-        <img src='{$row['logo']}' alt='{$row['nume']}' style='width: 20%; height: auto;'>
-        <h3>{$row['nume']}</h3>
-        <p><a href='{$row['link']}' target='_blank'>Website</a></p>
-        <p>{$row['descriere']}</p>
-        <a href='?delete_sponsor={$row['id']}' 
+    <div style='
+        border: 1px solid #ccc; 
+        padding: 10px; 
+        width: 250px; 
+        align-items: center; 
+        position: relative; 
+        justify-content: center; 
+        display: flex; 
+        text-align: center;
+        flex-direction: column; 
+        margin: 10px;
+        border-radius: 10px;
+    '>
+        <img src='" . htmlspecialchars($row['logo']) . "' 
+             alt='" . htmlspecialchars($row['nume']) . "' 
+             style='width: 60%; height: auto; margin-bottom: 10px;'>
+             
+        <h3>" . htmlspecialchars($row['nume']) . "</h3>
+        
+        <p><a href='" . htmlspecialchars($row['link']) . "' target='_blank'>Website</a></p>
+        
+        <p>" . nl2br(htmlspecialchars($row['descriere'])) . "</p>
+        
+        <a href='?delete_sponsor=" . urlencode($row['id']) . "' 
            onclick='return confirm(\"Sigur vrei să ștergi sponsorul?\")'
            style='color: red; position: absolute; top: 10px; right: 10px; text-decoration: none;'>🗑️</a>
     </div>
     ";
 }
 ?>
+
 
 </details>
 
@@ -208,7 +253,7 @@ function logout() {
             applyMode(newMode);
         });
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         applyMode(savedTheme);
     </script>
 </body>
