@@ -16,4 +16,3 @@ $stmt->bind_param("ss", $page, $ip);
 $stmt->execute();
 
 $stmt->close();
-$conn->close();

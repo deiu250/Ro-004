@@ -7,6 +7,8 @@
     <link rel="icon" type="image/jpeg" href="includes/logo.jpg">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Site oficial al echipei de robotică Robocorns RO004. Află despre proiectele noastre,
+    membrii echipei și competițiile la care participăm.">
     <style>
     </style>
 </head>
@@ -28,6 +30,9 @@
         }
         
         $result = $mysqli->query("SELECT * FROM sponsori");
+        
+        $sezoane = $mysqli->query("SELECT * FROM sezoane ORDER BY id ASC");
+
         $index = 1;
         
         while ($row = $result->fetch_assoc()) {
@@ -71,7 +76,7 @@
 
                     <div class="slide first">
                         <img src="css/inuse/12.jpeg" alt="">
-                    </div>
+                        </div>
                     <div class="slide">
                         <img src="css/inuse/14.jpeg" alt="">
                     </div>
@@ -144,60 +149,44 @@
             </div>
             -->
     <section>
-        <div class="intothedeep">
-            <h2>Into the deep</h2>
-            <div class="award-container">
-                <div class="award">
-                    <p>Inspire Award 2 - Etapa Regională</p>
-                    <div class="award-img-container">
-                        <img src="materiale/inspire-award.jpg" alt="Inspire Award">
-                        <div class="award-description">
-                            Se oferă echipei care are un impact major în comunitate și demonstrează leadership autentic,
-                            fiind totodata un ambasador FIRST TECH CHALLENGE. Acesta este premiul cel mai ravnit din
-                            competiție.
-                        </div>
-                    </div>
-                </div>
+        <?php
 
-                <div class="award">
-                    <p>Judges Award-Etapa Nationala</p>
-                    <img src="materiale/judgesaward.jpg" alt="Judges Award">
-                    <div class="award-description">
-                        Se oferă echipei care are un impact major în comunitate și demonstrează leadership autentic,
-                        fiind totodata un ambasador FIRST TECH CHALLENGE. Acesta este premiul cel mai ravnit din
-                        competiție.
-                    </div>
-                </div>
+
+
+while ($sezon = $sezoane->fetch_assoc()) {
+    $sezon_id = $sezon['id'];
+    $sezon_nume = htmlspecialchars($sezon['nume']);
+    $slug = strtolower(str_replace(' ', '', $sezon_nume)); // ex: Into the Deep -> intothedeep
+
+    echo "<div class='$slug'>";
+    echo "<h2>$sezon_nume</h2>";
+    echo "<div class='award-container'>";
+
+    $stmt = $conn->prepare("SELECT * FROM premii WHERE sezon_id = ? ORDER BY id ASC");
+    $stmt->bind_param("i", $sezon_id);
+    $stmt->execute();
+    $premii = $stmt->get_result();
+
+    while ($premiu = $premii->fetch_assoc()) {
+        $nume = htmlspecialchars($premiu['nume_premiu']);
+        $etapa = htmlspecialchars($premiu['etapa']);
+        $poza = htmlspecialchars($premiu['poza']);
+        $descriere = nl2br(htmlspecialchars($premiu['descriere']));
+
+        echo "
+        <div class='award'>
+            <p>$nume - Etapa $etapa</p>
+            <div class='award-img-container'>
+                <img src='admin/code/uploadspremii/$poza' alt='$nume'>
+                <div class='award-description'>$descriere</div>
             </div>
         </div>
-        <div class="centerstage">
-            <h2>Center stage</h2>
-            <div class="award-container">
-                <div class="award">
-                    <p>Design Award 2-Etapa Regionala</p>
-                    <img src="materiale/design2.jpg" alt="Design Award">
-                    <div class="award-description">
-                        Se oferă echipei care are un impact major în comunitate și demonstrează leadership autentic,
-                        fiind totodata un ambasador FIRST TECH CHALLENGE. Acesta este premiul cel mai ravnit din
-                        competiție.
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="powerplay">
-            <h2>Power play</h2>
-            <div class="award-container">
-                <div class="award">
-                    <p>Innovate Award 3-Etapa Nationala</p>
-                    <img src="materiale/innovate3.jpg" alt="Innovate Award">
-                    <div class="award-description">
-                        Se oferă echipei care are un impact major în comunitate și demonstrează leadership autentic,
-                        fiind totodata un ambasador FIRST TECH CHALLENGE. Acesta este premiul cel mai ravnit din
-                        competiție.
-                    </div>
-                </div>
-            </div>
-        </div>
+        ";
+    }
+
+    echo "</div></div>";
+}
+?>
     </section>
 </body>
 <?php include ("includes/footer.php")?>

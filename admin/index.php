@@ -10,6 +10,7 @@ if ($conn->connect_error) {
 // Obține toate vizitele
 $sql = "SELECT * FROM visits ORDER BY visit_time DESC";
 $res = $conn->query($sql);
+$sezoane = $conn->query("SELECT * FROM sezoane ORDER BY id ASC");
 
 // Verificare autentificare
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
@@ -87,6 +88,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['add_sponsor'])) {
         echo "<p style='color:red;'>❌ Eroare la upload imagine.</p>";
     }
 }
+// Stergere premiu
+if (isset($_GET['delete_premiu'])) {
+    $id_premiu = intval($_GET['delete_premiu']);
+    $stmt = $conn->prepare("DELETE FROM premii WHERE id = ?");
+    $stmt->bind_param("i", $id_premiu);
+    $stmt->execute();
+    $stmt->close();
+
+    // Redirect ca să nu revină la ștergerea asta dacă dai refresh
+    header("Location: " . strtok($_SERVER["REQUEST_URI"], '?'));
+    exit();
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -156,7 +170,7 @@ function logout() {
         <button type="submit">Adaugă membru</button>
     </form>
 
-    <details><summary>📋 Lista Membrilor</summary>
+    <details><summary>Lista Membrilor</summary>
     <?php
     $res = $conn->query("SELECT * FROM membri ORDER BY id DESC");
     while ($row = $res->fetch_assoc()) {
@@ -256,5 +270,62 @@ while ($row = $result->fetch_assoc()) {
         const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         applyMode(savedTheme);
     </script>
+   
+   <form action="code/adauga_sezon_submit.php" method="POST">
+    <label>Nume sezon:</label>
+    <input type="text" name="nume" required>
+    <button type="submit">Adaugă sezon</button>
+</form>
+
+   <form action="code/adauga_premiu_submit.php" method="POST" enctype="multipart/form-data">
+    <label>Sezon:</label>
+    <select name="sezon_id" required>
+        <?php while ($sezon = $sezoane->fetch_assoc()): ?>
+            <option value="<?= $sezon['id'] ?>"><?= htmlspecialchars($sezon['nume']) ?></option>
+        <?php endwhile; ?>
+    </select>
+
+    <label>Nume premiu:</label>
+    <input type="text" name="nume_premiu" required>
+
+    <label>Etapă:</label>
+    <select name="etapa" required>
+        <option value="Regională">Regională</option>
+        <option value="Națională">Națională</option>
+    </select>
+
+    <label>Poziție:</label>
+    <select name="pozitie">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+    </select>
+
+    <label>Descriere:</label>
+    <textarea name="descriere" required></textarea>
+
+    <label>Imagine premiu:</label>
+    <input type="file" name="poza" required>
+
+    <button type="submit">Adaugă premiu</button>
+       <?php
+$query = "SELECT * FROM premii ORDER BY id DESC";
+$rezultat = $conn->query($query);
+
+while ($premiu = $rezultat->fetch_assoc()):
+?>
+    <details><summary>Lista premii</summary>
+        <div class="award">
+        <p><?= htmlspecialchars($premiu['nume_premiu']) ?> - Etapa <?= htmlspecialchars($premiu['etapa']) ?></p>
+        <div class="award-img-container">
+            <img style="width: 50%; height: auto;" src="code/uploadspremii/<?= htmlspecialchars($premiu['poza']) ?>" alt="<?= htmlspecialchars($premiu['nume_premiu']) ?>">
+        </div>
+        <a href="?delete_premiu=<?= $premiu['id'] ?>"
+           onclick="return confirm('Sigur vrei să ștergi premiul <?= htmlspecialchars($premiu['nume_premiu']) ?>?')"
+           style="color: red; text-decoration: none;">🗑️ Șterge</a>
+    </div></details>
+<?php endwhile; ?>
+
+</form>
 </body>
 </html>
