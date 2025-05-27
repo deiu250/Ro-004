@@ -2,6 +2,9 @@
 session_start();
 $conn = new mysqli("localhost", "root", "", "19086");
 
+$sql = "SELECT * FROM sponsorizari";
+$mail = $conn->query($sql);
+
 
 if ($conn->connect_error) {
     die("Eroare la conectare: " . $conn->connect_error);
@@ -275,6 +278,12 @@ while ($row = $result->fetch_assoc()) {
     <label>Nume sezon:</label>
     <input type="text" name="nume" required>
     <button type="submit">Adaugă sezon</button>
+
+
+    <a href="?delete_premiu=<?= $premiu['id'] ?>"
+           onclick="return confirm('Sigur vrei să ștergi premiul <?= htmlspecialchars($premiu['nume_premiu']) ?>?')"
+           style="color: red; text-decoration: none;">🗑️ Șterge</a>
+    </div>
 </form>
 
    <form action="code/adauga_premiu_submit.php" method="POST" enctype="multipart/form-data">
@@ -312,10 +321,9 @@ while ($row = $result->fetch_assoc()) {
 $query = "SELECT * FROM premii ORDER BY id DESC";
 $rezultat = $conn->query($query);
 
-while ($premiu = $rezultat->fetch_assoc()):
-?>
-    <details><summary>Lista premii</summary>
-        <div class="award">
+?><details><summary>Lista premii</summary>
+<?php while ($premiu = $rezultat->fetch_assoc()): ?>
+    <div class="award">
         <p><?= htmlspecialchars($premiu['nume_premiu']) ?> - Etapa <?= htmlspecialchars($premiu['etapa']) ?></p>
         <div class="award-img-container">
             <img style="width: 50%; height: auto;" src="code/uploadspremii/<?= htmlspecialchars($premiu['poza']) ?>" alt="<?= htmlspecialchars($premiu['nume_premiu']) ?>">
@@ -323,9 +331,40 @@ while ($premiu = $rezultat->fetch_assoc()):
         <a href="?delete_premiu=<?= $premiu['id'] ?>"
            onclick="return confirm('Sigur vrei să ștergi premiul <?= htmlspecialchars($premiu['nume_premiu']) ?>?')"
            style="color: red; text-decoration: none;">🗑️ Șterge</a>
-    </div></details>
+    </div>
 <?php endwhile; ?>
+</details>
+
 
 </form>
+<details><summary>Lista sponsorizărilor</summary><table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nume Firma</th>
+            <th>Email</th>
+            <th>Mesaj</th>
+            <th>Suma</th>
+            <th>Data trimiterii</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if ($mail->num_rows > 0): ?>
+            <?php while($row = $mail->fetch_assoc()): ?>
+                <tr>
+                    <td><?= htmlspecialchars($row['id']) ?></td>
+                    <td><?= htmlspecialchars($row['nume']) ?></td>
+                    <td><?= htmlspecialchars($row['email']) ?></td>
+                    <td><?= htmlspecialchars($row['mesaj']) ?></td>
+                    <td><?= htmlspecialchars($row['suma']) ?></td>
+                    <td><?= htmlspecialchars($row['data_trimitere']) ?></td>
+                </tr>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr><td colspan="6">Nu există emailuri înregistrate.</td></tr>
+        <?php endif; ?>
+    </tbody>
+</table>
+</details>
 </body>
 </html>

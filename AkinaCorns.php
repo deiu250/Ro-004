@@ -11,6 +11,10 @@
 
 <body>
   <h1>Akinacorns </h1>
+  <div id="progressContainer">
+  <div id="progressBar"></div>
+</div>
+
   <div class="question" id="question"></div>
 
   <div class="btn-group" id="btnGroup">
@@ -54,40 +58,17 @@
   <select id="citySelect" style="display:none;"></select>
   <button id="submitCityBtn" style="display:none;" onclick="submitCityAnswer()">Trimite oraș</button>
 
-  
   <div class="result" id="result"></div>
   <button id="restartBtn" onclick="resetGame()">Reîncepe jocul</button>
 
   <script>
-    const teams = [
-      { name: "B-robo", city: "Satu Mare", mecanum: true, award: "Finalist alliance", place: 1 },
-      { name: "Alphatronic", city: "Cluj-Napoca", mecanum: true, award: "Inspire", place: 1 },
-      { name: "Xeo", city: "Alba Iulia", mecanum: true, award: "Think", place: 1 },
-      { name: "RoboAS", city: "Brașov", mecanum: true, award: "Innovate", place: 1 },
-      { name: "CyberPunk Robotics", city: "Turda", mecanum: true, award: "Finalist alliance", place: 3 },
-      { name: "The Resistance", city: "Mediaș", mecanum: true, award: "Winning alliance", place: 1 },
-      { name: "ABSO-TECH", city: "Gherla", mecanum: true, award: "Design", place: 1 },
-      { name: "Startech", city: "Satu Mare", mecanum: true, award: "Think", place: 3 },
-      { name: "Code Warriors", city: "Mediaș", mecanum: true, award: "Control", place: 3 },
-      { name: "PrimeTech", city: "Cluj-Napoca", mecanum: true, award: "Nu" },
-      { name: "Brainstorms", city: "Zalau", mecanum: true, award: "Nu" },
-      { name: "CNapSys", city: "Zalau", mecanum: true, award: "Motivate", place: 3 },
-      { name: "Rubix", city: "Blaj", mecanum: true, award: "Control", place: 2 },
-      { name: "Aces", city: "Cluj-Napoca", mecanum: true, award: "Design", place: 3 },
-      { name: "Robocorns", city: "Baia Mare", mecanum: true, award: "Inspire", place: 2 },
-    ];
-
-    const questions = [
-      { text: "Din ce oraș e echipa?", key: "city", type: "select-city" },
-      { text: "Folosește mecanum drive?", key: "mecanum", value: true, type: "yesno" },
-      { text: "Ce premiu a câștigat echipa sezonul ăsta?", key: "award", type: "select" },
-      { text: "Ce loc a luat la acel premiu?", key: "place", type: "number" }
-    ];
-
-    let remainingTeams = [...teams];
+    let teams = [];
+    let remainingTeams = [];
+    let questions = [];
     let currentQuestion = 0;
     let selectedAward = '';
     let secondaryAward = '';
+    let cities = [];
 
     const questionEl = document.getElementById("question");
     const resultEl = document.getElementById("result");
@@ -99,7 +80,33 @@
     const citySelect = document.getElementById("citySelect");
     const submitCityBtn = document.getElementById("submitCityBtn");
 
-    const cities = [...new Set(teams.map(team => team.city))];
+    let teamsLoaded = false;
+    let questionsLoaded = false;
+
+    fetch('includes/teams.json')
+      .then(response => response.json())
+      .then(data => {
+        teams = data.teams;
+        remainingTeams = [...teams];
+        cities = [...new Set(teams.map(team => team.city))];
+        teamsLoaded = true;
+        if (questionsLoaded) showQuestion();
+      })
+      .catch(error => {
+        console.error("Eroare la încărcarea echipelor:", error);
+        document.getElementById("question").textContent = "Nu pot încărca datele echipelor 😢";
+      });
+
+    fetch('includes/questions.json')
+      .then(response => response.json())
+      .then(data => {
+        questions = data;
+        questionsLoaded = true;
+        if (teamsLoaded) showQuestion();
+      })
+      .catch(error => {
+        console.error("Eroare la încărcarea întrebărilor:", error);
+      });
 
     function populateCityOptions() {
       citySelect.innerHTML = '<option value="">Alege orașul...</option>';
@@ -207,8 +214,6 @@
       document.getElementById("restartBtn").style.display = "none";
       showQuestion();
     }
-
-    showQuestion();
   </script>
   <script>
     window.addEventListener("beforeunload", function () {
@@ -216,6 +221,7 @@
         page: window.location.pathname
       }));
     });
-    </script>
+  </script>
+  
 </body>
 </html>

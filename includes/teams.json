@@ -1,0 +1,19 @@
+{
+  "teams": [
+    { "name": "B-robo", "city": "Satu Mare", "mecanum": true, "award": "Finalist alliance", "place": 1 },
+    { "name": "Alphatronic", "city": "Cluj-Napoca", "mecanum": true, "award": "Inspire", "place": 1 },
+    { "name": "Xeo", "city": "Alba Iulia", "mecanum": true, "award": "Think", "place": 1 },
+    { "name": "RoboAS", "city": "Brașov", "mecanum": true, "award": "Innovate", "place": 1 },
+    { "name": "CyberPunk Robotics", "city": "Turda", "mecanum": true, "award": "Finalist alliance", "place": 3 },
+    { "name": "The Resistance", "city": "Mediaș", "mecanum": true, "award": "Winning alliance", "place": 1 },
+    { "name": "ABSO-TECH", "city": "Gherla", "mecanum": true, "award": "Design", "place": 1 },
+    { "name": "Startech", "city": "Satu Mare", "mecanum": true, "award": "Think", "place": 3 },
+    { "name": "Code Warriors", "city": "Mediaș", "mecanum": true, "award": "Control", "place": 3 },
+    { "name": "PrimeTech", "city": "Cluj-Napoca", "mecanum": true, "award": "Nu" },
+    { "name": "Brainstorms", "city": "Zalau", "mecanum": true, "award": "Nu" },
+    { "name": "CNapSys", "city": "Zalau", "mecanum": true, "award": "Motivate", "place": 3 },
+    { "name": "Rubix", "city": "Blaj", "mecanum": true, "award": "Control", "place": 2 },
+    { "name": "Aces", "city": "Cluj-Napoca", "mecanum": true, "award": "Design", "place": 3 },
+    { "name": "Robocorns", "city": "Baia Mare", "mecanum": true, "award": "Inspire", "place": 2 }
+  ]
+}

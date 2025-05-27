@@ -1,0 +1,5 @@
+[
+  { "text": "Din ce oraș e echipa?", "key": "city", "type": "select-city" },
+  { "text": "În ce oraș e echipa?", "key": "city", "type": "select-city" },
+  { "text": "Ce loc a luat echipa?", "key": "position", "type": "number" }
+]
